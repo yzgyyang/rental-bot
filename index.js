@@ -14,7 +14,7 @@ app.use(bodyParser.json())
 
 // Routes
 app.get('/', function(req, res) {
-    res.send('Hi, I am a UWPC Rental Bot!')
+    res.send("Hi, I am a UWPC Rental Bot!")
 })
 
 // Facebook
