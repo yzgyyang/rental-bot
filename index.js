@@ -17,7 +17,7 @@ app.get('/', function(req, res) {
     res.send("Hi, I am a UWPC Rental Bot!")
 })
 
-token = "EAAFZBN7xZAk5sBAG2fcfCrK3zGG7Wraegj8yaxLK1yf8w8KyVji7ygtrgcMJLVrdL2OPGdwyXFVK2ewZCMtJ408gMEZAWBKF2whs1bEwShjoPpJ8jKTkEUV2cv8syZAJ5kqqXagZA1kbpeUPbLd0ZC3gMQZCZBNpeFRb5vIRh6YRSBQZDZD"
+let token = "EAAFZBN7xZAk5sBAG2fcfCrK3zGG7Wraegj8yaxLK1yf8w8KyVji7ygtrgcMJLVrdL2OPGdwyXFVK2ewZCMtJ408gMEZAWBKF2whs1bEwShjoPpJ8jKTkEUV2cv8syZAJ5kqqXagZA1kbpeUPbLd0ZC3gMQZCZBNpeFRb5vIRh6YRSBQZDZD"
 
 // Facebook
 app.get('/webhook/', function(req, res) {
