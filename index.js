@@ -25,7 +25,7 @@ const access = process.env.FB_ACCESS_TOKEN
 
 const app_url = 'https://uwpcrentalbot.herokuapp.com/'
 
-// Facebook
+// Facebook Webhooks
 app.get('/webhook/', function(req, res) {
     if (req.query['hub.verify_token'] === access) {
         res.send(req.query['hub.challenge'])
@@ -51,6 +51,7 @@ app.post('/webhook/', function(req, res) {
     res.sendStatus(200)
 })
 
+// Functions
 function decideMessage(sender, text1) {
     let text = text1.toLowerCase()
     if (text.includes("hey")) {
@@ -58,7 +59,7 @@ function decideMessage(sender, text1) {
     } else if (text.includes("inventory_category")) {
         sendInventoryCategoryList(sender)
     } else if (text.includes("inventory_canon")) {
-        sendInventoryList(sender)
+        sendPayloadMessage(sender, payloadCanonList)
     } else {
         sendText(sender, "Start a conversation by saying hey!")
     }
@@ -83,6 +84,32 @@ function sendText(sender, text) {
     })
 }
 
+function sendPayloadMessage(sender, payload) {
+    request({
+        url: "https://graph.facebook.com/v2.6/me/messages",
+        qs: {access_token: token},
+        method: "POST",
+        json: {
+            recipient: {id: sender},
+            message: {
+                attachment: 
+                {
+                    type: "template",
+                    payload: payload
+                }
+            }
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log("Sending error.")
+            console.log(response.body)
+        } else if (response.body.error) {
+            console.log("Response body error.")
+            console.log(response.body)
+        }
+    })
+}
+
 function sendButtonMessage(sender, text, buttons) {
     let messageData = {
         attachment: {
@@ -101,77 +128,6 @@ function sendButtonMessage(sender, text, buttons) {
         json: {
             recipient: {id: sender},
             message: messageData
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log("Sending error.")
-        } else if (response.body.error) {
-            console.log("Response body error.")
-        }
-    })
-}
-
-function sendInventoryList(sender) {
-    request({
-        url: "https://graph.facebook.com/v2.6/me/messages",
-        qs: {access_token: token},
-        method: "POST",
-        json: {
-            recipient: {id: sender},
-            message: {
-                attachment: {
-                    type: "template",
-                    payload: {
-                        template_type: "list",
-                        top_element_style: "compact",
-                        elements: [
-                            {
-                                title: "[CAN01] Canon 5D kit",
-                                image_url: app_url + "/images/canon_5d.jpg",
-                                subtitle: "Full-Frame, 13.2 Mpix, 3fps.",
-                                buttons: [
-                                    {
-                                        type: "postback",
-                                        title: "Rent at $35",
-                                        payload: "UNDEFINED"  
-                                    }
-                                ]
-                            },
-                            {
-                                title: "[CAN02] Canon T1i kit",
-                                image_url: app_url + "/images/canon_t1i.jpg",
-                                subtitle: "APS-C, 15.0 Mpix, 3fps.",
-                                buttons: [
-                                    {
-                                        type: "postback",
-                                        title: "Rent at $35",
-                                        payload: "UNDEFINED"  
-                                    }
-                                ]
-                            },
-                            {
-                                title: "[CAN03] Canon T3i kit",
-                                image_url: app_url + "/images/canon_t3i.jpg",
-                                subtitle: "APS-C, 18.7 Mpix, 3fps.",
-                                buttons: [
-                                    {
-                                        type: "postback",
-                                        title: "Rent at $35",
-                                        payload: "UNDEFINED"  
-                                    }
-                                ]
-                            }
-                        ],
-                        buttons: [
-                            {
-                                type: "postback",
-                                title: "View More",
-                                payload: "UNDEFINED"                        
-                            }
-                        ]
-                    }
-                }
-            }
         }
     }, function(error, response, body) {
         if (error) {
@@ -304,6 +260,58 @@ function sendGenericMessage(sender) {
     })
 }
 
+// Run app
 app.listen(app.get('port'), function() {
     console.log("Running: port")
 })
+
+// Payloads
+const payloadCanonList = {
+    template_type: "list",
+    top_element_style: "compact",
+    elements: [
+        {
+            title: "[CAN01] Canon 5D kit",
+            image_url: app_url + "/images/canon_5d.jpg",
+            subtitle: "Full-Frame, 13.2 Mpix, 3fps.",
+            buttons: [
+                {
+                    type: "postback",
+                    title: "Rent at $35",
+                    payload: "UNDEFINED"  
+                }
+            ]
+        },
+        {
+            title: "[CAN02] Canon T1i kit",
+            image_url: app_url + "/images/canon_t1i.jpg",
+            subtitle: "APS-C, 15.0 Mpix, 3fps.",
+            buttons: [
+                {
+                    type: "postback",
+                    title: "Rent at $35",
+                    payload: "UNDEFINED"  
+                }
+            ]
+        },
+        {
+            title: "[CAN03] Canon T3i kit",
+            image_url: app_url + "/images/canon_t3i.jpg",
+            subtitle: "APS-C, 18.7 Mpix, 3fps.",
+            buttons: [
+                {
+                    type: "postback",
+                    title: "Rent at $35",
+                    payload: "UNDEFINED"  
+                }
+            ]
+        }
+    ],
+    buttons: [
+        {
+            type: "postback",
+            title: "View Lenses",
+            payload: "UNDEFINED"                        
+        }
+    ]
+}
