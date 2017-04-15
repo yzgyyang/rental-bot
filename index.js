@@ -17,11 +17,14 @@ app.get('/', function(req, res) {
     res.send("Hi, I am a UWPC Rental Bot!")
 })
 
-let token = "EAAFZBN7xZAk5sBAG2fcfCrK3zGG7Wraegj8yaxLK1yf8w8KyVji7ygtrgcMJLVrdL2OPGdwyXFVK2ewZCMtJ408gMEZAWBKF2whs1bEwShjoPpJ8jKTkEUV2cv8syZAJ5kqqXagZA1kbpeUPbLd0ZC3gMQZCZBNpeFRb5vIRh6YRSBQZDZD"
+const token = process.env.FB_VERIFY_TOKEN
+const access = process.env.FB_ACCESS_TOKEN
+
+const app_url = 'https://uwpcrentalbot.herokuapp.com/'
 
 // Facebook
 app.get('/webhook/', function(req, res) {
-    if (req.query['hub.verify_token'] === "uwpcishype") {
+    if (req.query['hub.verify_token'] === access) {
         res.send(req.query['hub.challenge'])
     }
     res.send("Wrong token!")
@@ -34,11 +37,25 @@ app.post('/webhook/', function(req, res) {
         let sender = event.sender.id
         if (event.message && event.message.text) {
             let text = event.message.text
-            sendText(sender, "Text echo: " + text.substring(0, 100))
+            decideMessage(sender, text)
+        }
+        if (event.postback) {
+            let text = JSON.stringify(event.postback)
+            decideMessage(sender, text)
+            continue
         }
     }
     res.sendStatus(200)
 })
+
+function decideMessage(sender, text1) {
+    let text = text1.toLowerCase()
+    if (text.includes("hey")) {
+        sendGenericMessage(sender)
+    } else {
+        sendText(sender, "Start conversation by saying hey!")
+    }
+}
 
 function sendText(sender, text) {
     let messageData = {text: text}
@@ -50,11 +67,87 @@ function sendText(sender, text) {
             recipient: {id: sender},
             message: messageData
         }
-    }, function(error, respose, body) {
+    }, function(error, response, body) {
         if (error) {
             console.log("Sending error.")
         } else if (response.body.error) {
             console.log("Response body error.")
+        }
+    })
+}
+
+function sendButtonMessage(sender, text, buttons) {
+    let messageData = {
+        attachment: {
+            type: "template",
+            payload: {
+                template_type: "button",
+                text: text,
+                buttons: buttons
+            }
+        }
+    }
+    request({
+        url: "https://graph.facebook.com/v2.6/me/messages",
+        qs: {access_token: token},
+        method: "POST",
+        json: {
+            recipient: {id: sender},
+            message: messageData
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log("Sending error.")
+        } else if (response.body.error) {
+            console.log("Response body error.")
+        }
+    })
+}
+
+function sendGenericMessage(sender) {
+    request({
+        url: "https://graph.facebook.com/v2.6/me/messages",
+        qs: {access_token: token},
+        method: "POST",
+        json: {
+            recipient: {id: sender},
+            message: {
+                attachment: {
+                    type: "template",
+                    payload: {
+                        template_type: "generic",
+                        elements: [
+                            {
+                                title: "Welcome to UWPC Rentals!",
+                                image_url: app_url + "images/uwpc_rentals_bg.jpg",
+                                subtitle: "We\'ve got the right camera for everyone.",
+                                default_action: {
+                                    "type": "web_url",
+                                    "url": "http://uwphoto.ca/",
+                                    "messenger_extensions": true,
+                                    "webview_height_ratio": "tall",
+                                    "fallback_url": "http://uwphoto.ca/"
+                                },
+                                buttons: [
+                                    {
+                                        "type":"postback",
+                                        "title":"See existing rentals",
+                                        "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                                    },{
+                                        "type":"postback",
+                                        "title":"Start a rental request",
+                                        "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                                    },{
+                                        "type":"postback",
+                                        "title":"Exec log in",
+                                        "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
         }
     })
 }
