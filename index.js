@@ -126,10 +126,7 @@ function sendGenericMessage(sender) {
                                 subtitle: "We\'ve got the right camera for you.",
                                 default_action: {
                                     type: "web_url",
-                                    url: "http://uwphoto.ca/",
-                                    messenger_extensions: false,
-                                    webview_height_ratio: "tall",
-                                    fallback_url: "http://uwphoto.ca/"
+                                    url: "https://uwphoto.ca/",
                                 },
                                 buttons: [
                                     {
