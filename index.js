@@ -127,9 +127,8 @@ function sendGenericMessage(sender) {
                                 default_action: {
                                     type: "web_url",
                                     url: "https://uwphoto.ca/",
-                                    messenger_extensions: true,
+                                    messenger_extensions: false,
                                     webview_height_ratio: "tall",
-                                    fallback_url: "https://uwphoto.ca/"
                                 },
                                 buttons: [
                                     {
