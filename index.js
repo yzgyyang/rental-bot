@@ -55,9 +55,9 @@ app.post('/webhook/', function(req, res) {
 function decideMessage(sender, text1) {
     let text = text1.toLowerCase()
     if (text.includes("hey")) {
-        sendGenericMessage(sender)
+        sendPayloadMessage(sender, payloadGreetingMessage)
     } else if (text.includes("inventory_category")) {
-        sendInventoryCategoryList(sender)
+        sendPayloadMessage(sender, payloadInventoryCategory)
     } else if (text.includes("inventory_canon")) {
         sendPayloadMessage(sender, payloadCanonList)
     } else {
@@ -110,162 +110,86 @@ function sendPayloadMessage(sender, payload) {
     })
 }
 
-function sendButtonMessage(sender, text, buttons) {
-    let messageData = {
-        attachment: {
-            type: "template",
-            payload: {
-                template_type: "button",
-                text: text,
-                buttons: buttons
-            }
-        }
-    }
-    request({
-        url: "https://graph.facebook.com/v2.6/me/messages",
-        qs: {access_token: token},
-        method: "POST",
-        json: {
-            recipient: {id: sender},
-            message: messageData
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log("Sending error.")
-            console.log(response.body)
-        } else if (response.body.error) {
-            console.log("Response body error.")
-            console.log(response.body)
-        }
-    })
-}
-
-function sendInventoryCategoryList(sender) {
-    request({
-        url: "https://graph.facebook.com/v2.6/me/messages",
-        qs: {access_token: token},
-        method: "POST",
-        json: {
-            recipient: {id: sender},
-            message: {
-                attachment: {
-                    type: "template",
-                    payload: {
-                        template_type: "generic",
-                        elements: [
-                            {
-                                title: "Canon Kits",
-                                image_url: app_url + "images/canon_kits_bg.jpg",
-                                subtitle: "See impossible.",
-                                buttons: [
-                                    {
-                                        type: "postback",
-                                        title: "List of Canon Kits",
-                                        payload: "inventory_canon"
-                                    }
-                                ]
-                            },
-                            {
-                                title: "Nikon Kits",
-                                image_url: app_url + "images/nikon_kits_bg.jpg",
-                                subtitle: "At the heart of the image.",
-                                buttons: [
-                                    {
-                                        type: "postback",
-                                        title: "List of Nikon Kits",
-                                        payload: "inventory_nikon"
-                                    }
-                                ]
-                            },
-                            {
-                                title: "Flashlights",
-                                image_url: app_url + "images/flashlights_bg.jpg",
-                                subtitle: "Photography is the art of light.",
-                                buttons: [
-                                    {
-                                        type: "postback",
-                                        title: "List of Flashlights",
-                                        payload: "inventory_flash"
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                }
-            }
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log("Sending error.")
-            console.log(response.body)
-        } else if (response.body.error) {
-            console.log("Response body error.")
-            console.log(response.body)
-        }
-    })
-}
-
-function sendGenericMessage(sender) {
-    request({
-        url: "https://graph.facebook.com/v2.6/me/messages",
-        qs: {access_token: token},
-        method: "POST",
-        json: {
-            recipient: {id: sender},
-            message: {
-                attachment: {
-                    type: "template",
-                    payload: {
-                        template_type: "generic",
-                        elements: [
-                            {
-                                title: "Welcome to UWPC Rentals!",
-                                image_url: app_url + "images/uwpc_rentals_bg.jpg",
-                                subtitle: "We\'ve got the right camera for you.",
-                                default_action: {
-                                    type: "web_url",
-                                    url: "https://uwphoto.ca/",
-                                    messenger_extensions: false,
-                                    webview_height_ratio: "tall",
-                                },
-                                buttons: [
-                                    {
-                                        type: "postback",
-                                        title: "Our Inventory",
-                                        payload: "inventory_category"
-                                    },{
-                                        type: "postback",
-                                        title: "Rental Requests",
-                                        payload: "DEVELOPER_DEFINED_PAYLOAD"
-                                    },{
-                                        type: "postback",
-                                        title: "Exec Log In",
-                                        payload: "DEVELOPER_DEFINED_PAYLOAD"
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                }
-            }
-        }
-    }, function(error, response, body) {
-        if (error) {
-            console.log("Sending error.")
-            console.log(response.body)
-        } else if (response.body.error) {
-            console.log("Response body error.")
-            console.log(response.body)
-        }
-    })
-}
-
 // Run app
 app.listen(app.get('port'), function() {
     console.log("Running: port")
 })
 
 // Payloads
+const payloadGreetingMessage = {
+    template_type: "generic",
+    elements: [
+        {
+            title: "Welcome to UWPC Rentals!",
+            image_url: app_url + "images/uwpc_rentals_bg.jpg",
+            subtitle: "We\'ve got the right camera for you.",
+            default_action: {
+                type: "web_url",
+                url: "https://uwphoto.ca/",
+                messenger_extensions: false,
+                webview_height_ratio: "tall",
+            },
+            buttons: [
+                {
+                    type: "postback",
+                    title: "Our Inventory",
+                    payload: "inventory_category"
+                },{
+                    type: "postback",
+                    title: "Rental Requests",
+                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                },{
+                    type: "postback",
+                    title: "Exec Log In",
+                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                }
+            ]
+        }
+    ]
+}
+
+const payloadInventoryCategory = {
+    template_type: "generic",
+    elements: [
+        {
+            title: "Canon Kits",
+            image_url: app_url + "images/canon_kits_bg.jpg",
+            subtitle: "See impossible.",
+            buttons: [
+                {
+                    type: "postback",
+                    title: "List of Canon Kits",
+                    payload: "inventory_canon"
+                }
+            ]
+        },
+        {
+            title: "Nikon Kits",
+            image_url: app_url + "images/nikon_kits_bg.jpg",
+            subtitle: "At the heart of the image.",
+            buttons: [
+                {
+                    type: "postback",
+                    title: "List of Nikon Kits",
+                    payload: "inventory_nikon"
+                }
+            ]
+        },
+        {
+            title: "Flashlights",
+            image_url: app_url + "images/flashlights_bg.jpg",
+            subtitle: "Photography is the art of light.",
+            buttons: [
+                {
+                    type: "postback",
+                    title: "List of Flashlights",
+                    payload: "inventory_flash"
+                }
+            ]
+        }
+    ]
+}
+
 const payloadCanonList = {
     template_type: "list",
     top_element_style: "compact",
@@ -310,8 +234,8 @@ const payloadCanonList = {
     buttons: [
         {
             type: "postback",
-            title: "View Lenses",
-            payload: "UNDEFINED"                        
+            title: "Go Back",
+            payload: "inventory_category"                        
         }
     ]
 }
