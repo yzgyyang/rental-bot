@@ -126,37 +126,37 @@ function sendInventoryList(sender) {
                         top_element_style: "compact",
                         elements: [
                             {
-                                title: "Classic White T-Shirt",
-                                image_url: "https://peterssendreceiveapp.ngrok.io/img/white-t-shirt.png",
-                                subtitle: "100% Cotton, 200% Comfortable",
+                                title: "[CAN01] Canon 5D kit",
+                                image_url: app_url + "/images/canon_5d.jpg",
+                                subtitle: "Full-Frame, 13.2 Mpix, 3fps.",
                                 buttons: [
                                     {
                                         type: "postback",
-                                        title: "Rent",
+                                        title: "Rent at $35",
                                         payload: "UNDEFINED"  
                                     }
                                 ]
                             },
                             {
-                                title: "Classic White T-Shirt",
-                                image_url: "https://peterssendreceiveapp.ngrok.io/img/white-t-shirt.png",
-                                subtitle: "100% Cotton, 200% Comfortable",
+                                title: "[CAN02] Canon T1i kit",
+                                image_url: app_url + "/images/canon_t1i.jpg",
+                                subtitle: "APS-C, 15.0 Mpix, 3fps.",
                                 buttons: [
                                     {
                                         type: "postback",
-                                        title: "Rent",
+                                        title: "Rent at $35",
                                         payload: "UNDEFINED"  
                                     }
                                 ]
                             },
                             {
-                                title: "Classic White T-Shirt",
-                                image_url: "https://peterssendreceiveapp.ngrok.io/img/white-t-shirt.png",
-                                subtitle: "100% Cotton, 200% Comfortable",
+                                title: "[CAN03] Canon T3i kit",
+                                image_url: app_url + "/images/canon_t3i.jpg",
+                                subtitle: "APS-C, 18.7 Mpix, 3fps.",
                                 buttons: [
                                     {
                                         type: "postback",
-                                        title: "Rent",
+                                        title: "Rent at $35",
                                         payload: "UNDEFINED"  
                                     }
                                 ]
