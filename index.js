@@ -122,7 +122,7 @@ function sendGenericMessage(sender) {
                         elements: [
                             {
                                 title: "Welcome to UWPC Rentals!",
-                                image_url: app_url + "public/images/uwpc_rentals_bg.jpg",
+                                image_url: app_url + "images/uwpc_rentals_bg.jpg",
                                 subtitle: "We\'ve got the right camera for everyone.",
                                 default_action: {
                                     "type": "web_url",
