@@ -64,7 +64,7 @@ function sendText(sender, text) {
     let messageData = {text: text}
     request({
         url: "https://graph.facebook.com/v2.6/me/messages",
-        qs : {access_token: token},
+        qs: {access_token: token},
         method: "POST",
         json: {
             recipient: {id: sender},
@@ -123,7 +123,7 @@ function sendGenericMessage(sender) {
                             {
                                 title: "Welcome to UWPC Rentals!",
                                 image_url: app_url + "images/uwpc_rentals_bg.jpg",
-                                subtitle: "We\'ve got the right camera for everyone.",
+                                subtitle: "We\'ve got the right camera for you.",
                                 default_action: {
                                     type: "web_url",
                                     url: "http://uwphoto.ca/",
@@ -134,11 +134,11 @@ function sendGenericMessage(sender) {
                                 buttons: [
                                     {
                                         type: "postback",
-                                        title: "See your existing rentals",
+                                        title: "See my existing rentals",
                                         payload: "DEVELOPER_DEFINED_PAYLOAD"
                                     },{
                                         type: "postback",
-                                        title: "Start a rental request",
+                                        title: "Start a new rental request",
                                         payload: "DEVELOPER_DEFINED_PAYLOAD"
                                     },{
                                         type: "postback",
@@ -151,6 +151,14 @@ function sendGenericMessage(sender) {
                     }
                 }
             }
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log("Sending error.")
+            console.log(response.body)
+        } else if (response.body.error) {
+            console.log("Response body error.")
+            console.log(response.body)
         }
     })
 }
