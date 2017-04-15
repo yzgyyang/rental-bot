@@ -55,6 +55,8 @@ function decideMessage(sender, text1) {
     let text = text1.toLowerCase()
     if (text.includes("hey")) {
         sendGenericMessage(sender)
+    } else if (text.includes("inventory_category")) {
+        sendInventoryCategoryList(sender)
     } else {
         sendText(sender, "Start a conversation by saying hey!")
     }
@@ -107,6 +109,132 @@ function sendButtonMessage(sender, text, buttons) {
     })
 }
 
+function sendInventoryList(sender) {
+    request({
+        url: "https://graph.facebook.com/v2.6/me/messages",
+        qs: {access_token: token},
+        method: "POST",
+        json: {
+            recipient: {id: sender},
+            message: {
+                attachment: {
+                    type: "template",
+                    payload: {
+                        template_type: "list",
+                        top_element_style: "compact",
+                        elements: [
+                            {
+                                title: "Classic White T-Shirt",
+                                image_url: "https://peterssendreceiveapp.ngrok.io/img/white-t-shirt.png",
+                                subtitle: "100% Cotton, 200% Comfortable",
+                                default_action: {
+                                    type: "web_url",
+                                    url: "https://google.com",
+                                    messenger_extensions: true,
+                                    webview_height_ratio: "tall",
+                                    fallback_url: "https://google.com/"
+                                },
+                                buttons: [
+                                    {
+                                        title: "Rent",
+                                        type: "web_url",
+                                        url: "https://google.com/",
+                                        messenger_extensions: true,
+                                        webview_height_ratio: "tall",
+                                        fallback_url: "https://google.com/"
+                                    }
+                                ]
+                            },{
+
+                            }
+                        ],
+                        buttons: [
+                            {
+                                title: "View More",
+                                type: "postback",
+                                payload: "payload"                        
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log("Sending error.")
+            console.log(response.body)
+        } else if (response.body.error) {
+            console.log("Response body error.")
+            console.log(response.body)
+        }
+    })
+}
+
+function sendInventoryCategoryList(sender) {
+    request({
+        url: "https://graph.facebook.com/v2.6/me/messages",
+        qs: {access_token: token},
+        method: "POST",
+        json: {
+            recipient: {id: sender},
+            message: {
+                attachment: {
+                    type: "template",
+                    payload: {
+                        template_type: "generic",
+                        elements: [
+                            {
+                                title: "Canon Kits",
+                                image_url: app_url + "images/canon_kits_bg.jpg",
+                                subtitle: "See impossible.",
+                                buttons: [
+                                    {
+                                        type: "postback",
+                                        title: "List of Canon Kits",
+                                        payload: "inventory_canon"
+                                    }
+                                ]
+                            },
+                            {
+                                title: "Nikon Kits",
+                                image_url: app_url + "images/nikon_kits_bg.jpg",
+                                subtitle: "At the heart of the image.",
+                                buttons: [
+                                    {
+                                        type: "postback",
+                                        title: "List of Nikon Kits",
+                                        payload: "inventory_nikon"
+                                    }
+                                ]
+                            },
+                            {
+                                title: "Flashlights",
+                                image_url: app_url + "images/flashlights_bg.jpg",
+                                subtitle: "Photography is the art of light.",
+                                buttons: [
+                                    {
+                                        type: "postback",
+                                        title: "List of Flashlights",
+                                        payload: "inventory_flash"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }, function(error, response, body) {
+        if (error) {
+            console.log("Sending error.")
+            console.log(response.body)
+        } else if (response.body.error) {
+            console.log("Response body error.")
+            console.log(response.body)
+        }
+    })
+}
+
 function sendGenericMessage(sender) {
     request({
         url: "https://graph.facebook.com/v2.6/me/messages",
@@ -134,7 +262,7 @@ function sendGenericMessage(sender) {
                                     {
                                         type: "postback",
                                         title: "Our Inventory",
-                                        payload: "DEVELOPER_DEFINED_PAYLOAD"
+                                        payload: "inventory_category"
                                     },{
                                         type: "postback",
                                         title: "Rental Requests",
