@@ -57,6 +57,8 @@ function decideMessage(sender, text1) {
         sendGenericMessage(sender)
     } else if (text.includes("inventory_category")) {
         sendInventoryCategoryList(sender)
+    } else if (text.includes("inventory_canon")) {
+        sendInventoryList(sender)
     } else {
         sendText(sender, "Start a conversation by saying hey!")
     }
