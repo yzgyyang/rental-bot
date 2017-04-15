@@ -127,19 +127,26 @@ function sendGenericMessage(sender) {
                                 default_action: {
                                     type: "web_url",
                                     url: "https://uwphoto.ca/",
+                                    messenger_extensions: true,
+                                    webview_height_ratio: "tall",
+                                    fallback_url: "https://uwphoto.ca/"
                                 },
                                 buttons: [
                                     {
                                         type: "postback",
-                                        title: "See my existing rentals",
+                                        title: "Our Inventory",
                                         payload: "DEVELOPER_DEFINED_PAYLOAD"
                                     },{
                                         type: "postback",
-                                        title: "Start a new rental request",
+                                        title: "Existing Rentals",
                                         payload: "DEVELOPER_DEFINED_PAYLOAD"
                                     },{
                                         type: "postback",
-                                        title: "Exec log in",
+                                        title: "New Rental Request",
+                                        payload: "DEVELOPER_DEFINED_PAYLOAD"
+                                    },{
+                                        type: "postback",
+                                        title: "Exec Log In",
                                         payload: "DEVELOPER_DEFINED_PAYLOAD"
                                     }
                                 ]
