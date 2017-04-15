@@ -129,13 +129,6 @@ function sendInventoryList(sender) {
                                 title: "Classic White T-Shirt",
                                 image_url: "https://peterssendreceiveapp.ngrok.io/img/white-t-shirt.png",
                                 subtitle: "100% Cotton, 200% Comfortable",
-                                default_action: {
-                                    type: "web_url",
-                                    url: "https://google.com",
-                                    messenger_extensions: true,
-                                    webview_height_ratio: "tall",
-                                    fallback_url: "https://google.com/"
-                                },
                                 buttons: [
                                     {
                                         title: "Rent",
@@ -146,8 +139,6 @@ function sendInventoryList(sender) {
                                         fallback_url: "https://google.com/"
                                     }
                                 ]
-                            },{
-
                             }
                         ],
                         buttons: [
