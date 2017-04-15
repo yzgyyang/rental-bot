@@ -56,7 +56,7 @@ function decideMessage(sender, text1) {
     if (text.includes("hey")) {
         sendGenericMessage(sender)
     } else {
-        sendText(sender, "Start conversation by saying hey!")
+        sendText(sender, "Start a conversation by saying hey!")
     }
 }
 
@@ -125,25 +125,25 @@ function sendGenericMessage(sender) {
                                 image_url: app_url + "images/uwpc_rentals_bg.jpg",
                                 subtitle: "We\'ve got the right camera for everyone.",
                                 default_action: {
-                                    "type": "web_url",
-                                    "url": "http://uwphoto.ca/",
-                                    "messenger_extensions": true,
-                                    "webview_height_ratio": "tall",
-                                    "fallback_url": "http://uwphoto.ca/"
+                                    type: "web_url",
+                                    url: "http://uwphoto.ca/",
+                                    messenger_extensions: true,
+                                    webview_height_ratio: "tall",
+                                    fallback_url: "http://uwphoto.ca/"
                                 },
                                 buttons: [
                                     {
-                                        "type":"postback",
-                                        "title":"See existing rentals",
-                                        "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                                        type: "postback",
+                                        title: "See your existing rentals",
+                                        payload: "DEVELOPER_DEFINED_PAYLOAD"
                                     },{
-                                        "type":"postback",
-                                        "title":"Start a rental request",
-                                        "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                                        type: "postback",
+                                        title: "Start a rental request",
+                                        payload: "DEVELOPER_DEFINED_PAYLOAD"
                                     },{
-                                        "type":"postback",
-                                        "title":"Exec log in",
-                                        "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                                        type: "postback",
+                                        title: "Exec log in",
+                                        payload: "DEVELOPER_DEFINED_PAYLOAD"
                                     }
                                 ]
                             }
