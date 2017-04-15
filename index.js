@@ -137,11 +137,7 @@ function sendGenericMessage(sender) {
                                         payload: "DEVELOPER_DEFINED_PAYLOAD"
                                     },{
                                         type: "postback",
-                                        title: "Existing Rentals",
-                                        payload: "DEVELOPER_DEFINED_PAYLOAD"
-                                    },{
-                                        type: "postback",
-                                        title: "New Rental Request",
+                                        title: "Rental Requests",
                                         payload: "DEVELOPER_DEFINED_PAYLOAD"
                                     },{
                                         type: "postback",
