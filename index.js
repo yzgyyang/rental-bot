@@ -58,8 +58,10 @@ function decideMessage(sender, text1) {
         sendPayloadMessage(sender, payloadGreetingMessage)
     } else if (text.includes("inventory_category")) {
         sendPayloadMessage(sender, payloadInventoryCategory)
-    } else if (text.includes("inventory_canon")) {
-        sendPayloadMessage(sender, payloadCanonList)
+    } else if (text.includes("inventory_cameras")) {
+        sendPayloadMessage(sender, payloadCameraList)
+    } else if (text.includes("rental_requests")) {
+        sendPayloadMessage(sender, payloadRequestsCategory)
     } else {
         sendText(sender, "Start a conversation by saying hey!")
     }
@@ -137,7 +139,7 @@ const payloadGreetingMessage = {
                 },{
                     type: "postback",
                     title: "Rental Requests",
-                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                    payload: "rental_requests"
                 },{
                     type: "postback",
                     title: "Exec Log In",
@@ -148,30 +150,40 @@ const payloadGreetingMessage = {
     ]
 }
 
+const payloadRequestsCategory = {
+    template_type: "button",
+    text: "Do you want to start a new request or manage an existing one?",
+    buttons: [
+      {
+        type: "postback",
+        title: "New Request",
+        payload: "USER_DEFINED_PAYLOAD"
+      },
+      {
+        type: "postback",
+        title: "Existing Request",
+        payload: "USER_DEFINED_PAYLOAD"
+      },
+      {
+        type: "postback",
+        title: "Go Back",
+        payload: "hey"
+      }
+    ]
+}
+
 const payloadInventoryCategory = {
     template_type: "generic",
     elements: [
         {
-            title: "Canon Kits",
-            image_url: app_url + "images/canon_kits_bg.jpg",
-            subtitle: "See impossible.",
-            buttons: [
-                {
-                    type: "postback",
-                    title: "List of Canon Kits",
-                    payload: "inventory_canon"
-                }
-            ]
-        },
-        {
-            title: "Nikon Kits",
-            image_url: app_url + "images/nikon_kits_bg.jpg",
+            title: "Cameras",
+            image_url: app_url + "images/cameras_bg.jpg",
             subtitle: "At the heart of the image.",
             buttons: [
                 {
                     type: "postback",
-                    title: "List of Nikon Kits",
-                    payload: "inventory_nikon"
+                    title: "List of Cameras",
+                    payload: "inventory_cameras"
                 }
             ]
         },
@@ -190,14 +202,14 @@ const payloadInventoryCategory = {
     ]
 }
 
-const payloadCanonList = {
+const payloadCameraList = {
     template_type: "list",
     top_element_style: "compact",
     elements: [
         {
             title: "[CAN01] Canon 5D kit",
             image_url: app_url + "/images/canon_5d.jpg",
-            subtitle: "Full-Frame, 13.2 Mpix, 3fps.",
+            subtitle: "Full-Frame, 13.2 Mpix, 3fps.\nDXO Sensor Mark: 71.",
             buttons: [
                 {
                     type: "postback",
@@ -209,7 +221,7 @@ const payloadCanonList = {
         {
             title: "[CAN02] Canon T1i kit",
             image_url: app_url + "/images/canon_t1i.jpg",
-            subtitle: "APS-C, 15.0 Mpix, 3fps.",
+            subtitle: "APS-C, 15.0 Mpix, 3fps.\nDXO Sensor Mark: 63.",
             buttons: [
                 {
                     type: "postback",
@@ -221,7 +233,19 @@ const payloadCanonList = {
         {
             title: "[CAN03] Canon T3i kit",
             image_url: app_url + "/images/canon_t3i.jpg",
-            subtitle: "APS-C, 18.7 Mpix, 3fps.",
+            subtitle: "APS-C, 18.7 Mpix, 3fps.\nDXO Sensor Mark: 65.",
+            buttons: [
+                {
+                    type: "postback",
+                    title: "Rent at $35",
+                    payload: "UNDEFINED"  
+                }
+            ]
+        },
+        {
+            title: "[NIK01] Nikon D7000 kit",
+            image_url: app_url + "/images/nikon_d7000.jpg",
+            subtitle: "APS-C, 16.3 Mpix, 6fps.\nDXO Sensor Mark: 80.",
             buttons: [
                 {
                     type: "postback",
