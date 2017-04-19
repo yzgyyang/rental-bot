@@ -142,8 +142,8 @@ const payloadGreetingMessage = {
                     payload: "rental_requests"
                 },{
                     type: "postback",
-                    title: "Exec Log In",
-                    payload: "DEVELOPER_DEFINED_PAYLOAD"
+                    title: "Exec Portal",
+                    payload: "exec_portal"
                 }
             ]
         }
