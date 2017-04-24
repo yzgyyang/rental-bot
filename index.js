@@ -62,6 +62,9 @@ function decideMessage(sender, text1) {
         sendPayloadMessage(sender, payloadCameraList)
     } else if (text.includes("rental_requests")) {
         sendPayloadMessage(sender, payloadRequestsCategory)
+    } else if (text.includes("user_defined_payload")) {
+    	sendText(sender, "This function is currently disabled by the administrator. " + 
+    		"Please use the Google Form at http://uwphoto.ca/rentals.")
     } else {
         sendText(sender, "Start a conversation by saying hey!")
     }
@@ -214,7 +217,7 @@ const payloadCameraList = {
                 {
                     type: "postback",
                     title: "Rent at $35",
-                    payload: "UNDEFINED"  
+                    payload: "USER_DEFINED_PAYLOAD"  
                 }
             ]
         },
@@ -226,7 +229,7 @@ const payloadCameraList = {
                 {
                     type: "postback",
                     title: "Rent at $35",
-                    payload: "UNDEFINED"  
+                    payload: "USER_DEFINED_PAYLOAD"  
                 }
             ]
         },
@@ -238,7 +241,7 @@ const payloadCameraList = {
                 {
                     type: "postback",
                     title: "Rent at $35",
-                    payload: "UNDEFINED"  
+                    payload: "USER_DEFINED_PAYLOAD"  
                 }
             ]
         },
@@ -250,7 +253,7 @@ const payloadCameraList = {
                 {
                     type: "postback",
                     title: "Rent at $35",
-                    payload: "UNDEFINED"  
+                    payload: "USER_DEFINED_PAYLOAD"  
                 }
             ]
         }
