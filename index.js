@@ -138,9 +138,9 @@ app.listen(app.get('port'), function() {
 })
 
 // Consts
-const execPSID = [
-	"1234400996658397" // Charlie Yang
-]
+const execPSID = {
+	"1234400996658397": "Charlie Yang"
+}
 
 // Payloads
 const payloadExecLoginSuccess = {
