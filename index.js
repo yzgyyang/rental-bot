@@ -41,11 +41,9 @@ app.post('/webhook/', function(req, res) {
         if (event.message && event.message.text) {
             let text = event.message.text
             decideMessage(sender, text)
-        }
-        if (event.postback) {
+        } else if (event.postback) {
             let text = JSON.stringify(event.postback)
-            decideMessage(sender, text)
-            continue
+            decidePayload(sender, text)
         }
     }
     res.sendStatus(200)
@@ -56,18 +54,37 @@ function decideMessage(sender, text1) {
     let text = text1.toLowerCase()
     if (text.includes("hey")) {
         sendPayloadMessage(sender, payloadGreetingMessage)
-    } else if (text.includes("inventory_category")) {
-        sendPayloadMessage(sender, payloadInventoryCategory)
-    } else if (text.includes("inventory_cameras")) {
-        sendPayloadMessage(sender, payloadCameraList)
-    } else if (text.includes("rental_requests")) {
-        sendPayloadMessage(sender, payloadRequestsCategory)
-    } else if (text.includes("user_defined_payload")) {
-    	sendText(sender, "This function is currently disabled by the administrator. " + 
-    		"Please use the Google Form at http://uwphoto.ca/rentals.")
     } else {
         sendText(sender, "Start a conversation by saying hey!")
     }
+}
+
+function decidePayload(sender, text1) {
+    let text = text1.toLowerCase()
+    if (text === ("auth_exec")) {
+        authExec(sender)
+    } else if (text === "inventory_category") {
+        sendPayloadMessage(sender, payloadInventoryCategory)
+    } else if (text === "inventory_cameras") {
+        sendPayloadMessage(sender, payloadCameraList)
+    } else if (text === "rental_requests") {
+        sendPayloadMessage(sender, payloadRequestsCategory)
+    } else if (text === "user_defined_payload") {
+    	sendText(sender, "This function is currently disabled by the administrator. " + 
+    		"Please use the Google Form at http://uwphoto.ca/rentals.")
+    } else if (text.includes("hey")) {
+    	sendPayloadMessage(sender, payloadGreetingMessage)
+    } else {
+    	sendText(sender, "Internal error.")
+    }
+}
+
+function authExec(sender) {
+	if (sender in execPSID) {
+		sendPayloadMessage(sender, payloadExecLoginSuccess)
+	} else {
+		sendText(sender, "Your PSID is " + sender + ". Authentication failed.")
+	}
 }
 
 function sendText(sender, text) {
@@ -120,7 +137,22 @@ app.listen(app.get('port'), function() {
     console.log("Running: port")
 })
 
+// Consts
+const execPSID = []
+
 // Payloads
+const payloadExecLoginSuccess = {
+    template_type: "button",
+    text: "You are successfully logged in.",
+    buttons: [
+      {
+        type: "postback",
+        title: "Continue",
+        payload: "exec_portal"
+      }
+    ]
+}
+
 const payloadGreetingMessage = {
     template_type: "generic",
     elements: [

@@ -1,6 +1,11 @@
 # RentalBot
 A Rental Management Bot made for UWPC.
 
+## Server Addresses
+Chatbot Webhook: https://uwpcrentalbot.herokuapp.com/  
+Firebase: https://uwpcrentalbot.firebaseio.com/
+
+
 ## Deployment
 The following secret values should be set in environmental variables instead of in the code:  
 `FB_VERIFY_TOKEN`
