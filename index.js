@@ -61,15 +61,15 @@ function decideMessage(sender, text1) {
 
 function decidePayload(sender, text1) {
     let text = text1.toLowerCase()
-    if (text === ("auth_exec")) {
+    if (text.includes("auth_exec")) {
         authExec(sender)
-    } else if (text === "inventory_category") {
+    } else if (text.includes("inventory_category")) {
         sendPayloadMessage(sender, payloadInventoryCategory)
-    } else if (text === "inventory_cameras") {
+    } else if (text.includes("inventory_cameras")) {
         sendPayloadMessage(sender, payloadCameraList)
-    } else if (text === "rental_requests") {
+    } else if (text.includes("rental_requests")) {
         sendPayloadMessage(sender, payloadRequestsCategory)
-    } else if (text === "user_defined_payload") {
+    } else if (text.include("user_defined_payload")) {
     	sendText(sender, "This function is currently disabled by the administrator. " + 
     		"Please use the Google Form at http://uwphoto.ca/rentals.")
     } else if (text.includes("hey")) {
