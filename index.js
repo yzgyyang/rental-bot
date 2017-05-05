@@ -69,7 +69,7 @@ function decidePayload(sender, text1) {
         sendPayloadMessage(sender, payloadCameraList)
     } else if (text.includes("rental_requests")) {
         sendPayloadMessage(sender, payloadRequestsCategory)
-    } else if (text.include("user_defined_payload")) {
+    } else if (text.includes("user_defined_payload")) {
     	sendText(sender, "This function is currently disabled by the administrator. " + 
     		"Please use the Google Form at http://uwphoto.ca/rentals.")
     } else if (text.includes("hey")) {
