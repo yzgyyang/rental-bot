@@ -178,7 +178,7 @@ const payloadGreetingMessage = {
                 },{
                     type: "postback",
                     title: "Exec Portal",
-                    payload: "exec_portal"
+                    payload: "auth_exec"
                 }
             ]
         }
