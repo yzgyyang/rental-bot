@@ -87,7 +87,7 @@ function decidePayload(sender, text1) {
     } else if (text.includes("hey")) {
     	sendPayloadMessage(sender, payloadGreetingMessage)
     } else {
-    	sendText(sender, "Internal error.")
+    	sendText(sender, "Undefined Payload:" + text + ". Internal error.")
     }
 }
 
@@ -114,7 +114,7 @@ function sendText(sender, text) {
         if (error) {
             console.log("Sending error.")
         } else if (response.body.error) {
-            console.log("Response body error.")
+            console.log("sendText(): Response body error.")
         }
     })
 }
@@ -139,7 +139,7 @@ function sendPayloadMessage(sender, payload) {
             console.log("Sending error.")
             console.log(response.body)
         } else if (response.body.error) {
-            console.log("Response body error.")
+            console.log("sendPayloadMessage(): Response body error.")
             console.log(response.body)
         }
     })
