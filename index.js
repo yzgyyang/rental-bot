@@ -3,6 +3,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
+const firebase = require('firebase')
 
 const app = express()
 
@@ -14,6 +15,17 @@ app.use(express.static(__dirname + '/public'));
 // Allow to process the data
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
+
+// Firebase Init
+firebase.initializeApp({
+    serviceAccount: {
+        projectID: "uwpcrentalbot",
+        clientEmail: "rentalbot@uwpcrentalbot.iam.gserviceaccount.com",
+        privateKey: process.env.FIREBASE_PRIVATE_KEY
+    },
+    databaseURL: "https://uwpcrentalbot.firebaseio.com/"
+});
+var database = firebase.database();
 
 // Routes
 app.get('/', function(req, res) {
@@ -70,7 +82,7 @@ function decidePayload(sender, text1) {
     } else if (text.includes("rental_requests")) {
         sendPayloadMessage(sender, payloadRequestsCategory)
     } else if (text.includes("user_defined_payload")) {
-    	sendText(sender, "This function is currently disabled by the administrator. " + 
+    	sendText(sender, "This function is currently disabled by the administrator. " +
     		"Please use the Google Form at http://uwphoto.ca/rentals.")
     } else if (text.includes("hey")) {
     	sendPayloadMessage(sender, payloadGreetingMessage)
@@ -114,7 +126,7 @@ function sendPayloadMessage(sender, payload) {
         json: {
             recipient: {id: sender},
             message: {
-                attachment: 
+                attachment:
                 {
                     type: "template",
                     payload: payload
@@ -251,7 +263,7 @@ const payloadCameraList = {
                 {
                     type: "postback",
                     title: "Rent at $35",
-                    payload: "USER_DEFINED_PAYLOAD"  
+                    payload: "USER_DEFINED_PAYLOAD"
                 }
             ]
         },
@@ -263,7 +275,7 @@ const payloadCameraList = {
                 {
                     type: "postback",
                     title: "Rent at $35",
-                    payload: "USER_DEFINED_PAYLOAD"  
+                    payload: "USER_DEFINED_PAYLOAD"
                 }
             ]
         },
@@ -275,7 +287,7 @@ const payloadCameraList = {
                 {
                     type: "postback",
                     title: "Rent at $35",
-                    payload: "USER_DEFINED_PAYLOAD"  
+                    payload: "USER_DEFINED_PAYLOAD"
                 }
             ]
         },
@@ -287,7 +299,7 @@ const payloadCameraList = {
                 {
                     type: "postback",
                     title: "Rent at $35",
-                    payload: "USER_DEFINED_PAYLOAD"  
+                    payload: "USER_DEFINED_PAYLOAD"
                 }
             ]
         }
@@ -296,7 +308,7 @@ const payloadCameraList = {
         {
             type: "postback",
             title: "Go Back",
-            payload: "inventory_category"                        
+            payload: "inventory_category"
         }
     ]
 }
