@@ -25,7 +25,7 @@ firebase.initializeApp({
     },
     databaseURL: "https://uwpcrentalbot.firebaseio.com/"
 });
-var database = firebase.database();
+var db = firebase.database();
 
 // Routes
 app.get('/', function(req, res) {
@@ -92,7 +92,8 @@ function decidePayload(sender, text1) {
 }
 
 function authExec(sender) {
-	if (sender in execPSID) {
+    ref = db.ref("execs/" + sender).once()
+	if (ref.val() !== null) {
 		sendPayloadMessage(sender, payloadExecLoginSuccess)
 	} else {
 		sendText(sender, "Your PSID is " + sender + ". Authentication failed.")
