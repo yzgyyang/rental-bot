@@ -10,7 +10,7 @@ const app = express()
 app.set('port', (process.env.PORT || 5000))
 
 // Allow static assets
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'))
 
 // Allow to process the data
 app.use(bodyParser.urlencoded({extended: false}))
@@ -25,7 +25,7 @@ firebase.initializeApp({
     },
     databaseURL: "https://uwpcrentalbot.firebaseio.com/"
 });
-var db = firebase.database();
+var db = firebase.database()
 
 // Routes
 app.get('/', function(req, res) {
@@ -92,7 +92,7 @@ function decidePayload(sender, text1) {
 }
 
 function authExec(sender) {
-    ref = db.ref("execs/" + sender).once()
+    ref = db.ref("execs/" + sender).once('value')
 	if (ref.val() !== null) {
 		sendPayloadMessage(sender, payloadExecLoginSuccess)
 	} else {
