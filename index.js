@@ -92,12 +92,13 @@ function decidePayload(sender, text1) {
 }
 
 function authExec(sender) {
-    var ref = db.ref("execs/" + sender).once('value')
-	if (ref.val() !== null) {
-		sendPayloadMessage(sender, payloadExecLoginSuccess)
-	} else {
-		sendText(sender, "Your PSID is " + sender + ". Authentication failed.")
-	}
+    var ref = db.ref("execs/" + sender).once('value').then(function(snapshot) {
+        if (snapshot.val() !== null) {
+    		sendPayloadMessage(sender, payloadExecLoginSuccess)
+    	} else {
+    		sendText(sender, "Your PSID is " + sender + ". Authentication failed.")
+    	}
+    })
 }
 
 function sendText(sender, text) {
