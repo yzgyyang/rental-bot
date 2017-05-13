@@ -116,6 +116,7 @@ function sendText(sender, text) {
             console.log("Sending error.")
         } else if (response.body.error) {
             console.log("sendText(): Response body error.")
+            console.log(response)
         }
     })
 }
