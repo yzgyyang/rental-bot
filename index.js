@@ -92,7 +92,7 @@ function decidePayload(sender, text1) {
 }
 
 function authExec(sender) {
-    ref = db.ref("execs/" + sender).once('value')
+    var ref = db.ref("execs/" + sender).once('value')
 	if (ref.val() !== null) {
 		sendPayloadMessage(sender, payloadExecLoginSuccess)
 	} else {
