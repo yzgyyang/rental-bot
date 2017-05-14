@@ -1,6 +1,12 @@
 # RentalBot
 A Rental Management Bot made for UWPC.
 
+## To-do
+- users database design + pending selection w/ json
+- rentals database design
+- renting process finish
+- equips database design
+
 ## Server Addresses
 Chatbot Webhook: https://uwpcrentalbot.herokuapp.com/  
 
@@ -55,7 +61,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
             {
               "title":"Exec Portal",
               "type":"postback",
-              "payload":"exec_portal"
+              "payload":"auth_exec"
             }
           ]
         }

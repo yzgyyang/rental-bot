@@ -1,9 +1,11 @@
 'use strict'
 
-const express = require('express')
-const bodyParser = require('body-parser')
-const request = require('request')
-const pg = require('pg')
+var express = require('express')
+var bodyParser = require('body-parser')
+var request = require('request')
+
+var pg = require('pg')
+pg.defaults.ssl = true;
 
 var app = express()
 
@@ -68,7 +70,10 @@ function decideMessage(sender, text1) {
     let text = text1.toLowerCase()
     if (text.includes("hey")) {
         sendPayloadMessage(sender, payloadGreetingMessage)
-    } else {
+    } else if (text.includes("test_user_login")) {
+        user = identUser(sender)
+        sendText(send, JSON.stringify(user))
+    } else{
         sendText(sender, "Start a conversation by saying hey!")
     }
 }
@@ -93,6 +98,41 @@ function decidePayload(sender, text1) {
     }
 }
 
+function identUser(sender) {
+    var user = null
+    request({
+        url: "https://graph.facebook.com/v2.6/" + sender + "?fields=first_name,last_name,profile_pic,gender"
+        qs: {access_token: token},
+        method: "GET",
+    }, function(error, response, body) {
+        if (error) {
+            console.log("Sending error.")
+        } else if (response.body.error) {
+            console.log("sendText(): Response body error.")
+        } else {
+            user = JSON.parse()
+        }
+    })
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        if (err) throw err
+        client
+            .query('SELECT psid FROM public.users WHERE psid LIKE $1;', [sender], function(err, res) {
+                if (res.row[0] === null) {
+                    client
+                        .query('INSERT INTO public.users (psid, first_name, last_name, profile_pic, gender) VALUES ($1, $2, $3, $4, $5);',
+                                [sender, user.first_name, user.last_name, user.profile_pic, user.gender])
+                } else {
+                    client
+                        .query('UPDATE public.users SET first_name = $1, last_name = $2, profile_pic = $3, gender = $4 WHERE psid LIKE $5',
+                                [user.first_name, user.last_name, user.profile_pic, user.gender, sender])
+                }
+                client.end()
+        })
+    })
+    user.psid = sender
+    return user
+}
+
 function authExec(sender) {
     pg.connect(process.env.DATABASE_URL, function(err, client) {
         if (err) throw err
@@ -103,6 +143,7 @@ function authExec(sender) {
                 } else {
                     sendText(sender, "Your PSID is " + sender + ". Authentication failed.")
                 }
+                client.end()
             })
     })
 }
@@ -156,11 +197,6 @@ function sendPayloadMessage(sender, payload) {
 app.listen(app.get('port'), function() {
     console.log("Running: port")
 })
-
-// Consts
-const execPSID = {
-	"1234400996658397": "Charlie Yang"
-}
 
 // Payloads
 const payloadExecLoginSuccess = {
