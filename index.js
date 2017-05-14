@@ -100,9 +100,11 @@ function decidePayload(sender, text1) {
 
 function identUser(sender) {
     var user = null
+    var url = "https://graph.facebook.com/v2.6/" + sender
+    url += "?fields=first_name,last_name,profile_pic,gender"
+    url += "&access_token=" + process.env.FB_ACCESS_TOKEN
     request({
-        url: "https://graph.facebook.com/v2.6/" + sender + "?fields=first_name,last_name,profile_pic,gender"
-        qs: {access_token: token},
+        url: url
         method: "GET",
     }, function(error, response, body) {
         if (error) {
