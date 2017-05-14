@@ -92,7 +92,7 @@ function decidePayload(sender, text1) {
 }
 
 function authExec(sender) {
-    var ref = db.ref("execs/" + sender).once('value').then(function(snapshot) {
+    db.ref("execs/" + sender).once('value').then(function(snapshot) {
         if (snapshot.val() !== null) {
     		sendPayloadMessage(sender, payloadExecLoginSuccess)
     	} else {
@@ -116,7 +116,6 @@ function sendText(sender, text) {
             console.log("Sending error.")
         } else if (response.body.error) {
             console.log("sendText(): Response body error.")
-            console.log(response)
         }
     })
 }
