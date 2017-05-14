@@ -71,7 +71,7 @@ function decideMessage(sender, text1) {
     if (text.includes("hey")) {
         sendPayloadMessage(sender, payloadGreetingMessage)
     } else if (text.includes("test_user_login")) {
-        user = identUser(sender)
+        var user = identUser(sender)
         sendText(send, JSON.stringify(user))
     } else{
         sendText(sender, "Start a conversation by saying hey!")
