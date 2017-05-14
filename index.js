@@ -3,7 +3,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
-const firebase = require('pg')
+const pg = require('pg')
 
 var app = express()
 
