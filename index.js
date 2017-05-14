@@ -23,7 +23,6 @@ app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
-<<<<<<< HEAD
 // Init PostgreSQL
 pg.connect(process.env.DATABASE_URL, function(err, client) {
     if (err) throw err
@@ -34,18 +33,6 @@ pg.connect(process.env.DATABASE_URL, function(err, client) {
           console.log(JSON.stringify(row))
     })
 })
-=======
-// Firebase Init
-firebase.initializeApp({
-    serviceAccount: {
-        projectID: "uwpcrentalbot",
-        clientEmail: "rentalbot@uwpcrentalbot.iam.gserviceaccount.com",
-        privateKey: process.env.FIREBASE_PRIVATE_KEY
-    },
-    databaseURL: "https://uwpcrentalbot.firebaseio.com/"
-});
-var db = firebase.database()
->>>>>>> c678e3acc15907d037323180f317f11ac0b38bb8
 
 // Routes
 app.get('/', function(req, res) {
