@@ -1,10 +1,11 @@
 'use strict'
 
-const express = require('express')
-const bodyParser = require('body-parser')
-const request = require('request')
+var express = require('express')
+var bodyParser = require('body-parser')
+var request = require('request')
+var pg = require('pg')
 
-const app = express()
+var app = express()
 
 app.set('port', (process.env.PORT || 5000))
 
@@ -14,6 +15,17 @@ app.use(express.static(__dirname + '/public'))
 // Allow to process the data
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
+
+// Init PostgreSQL
+pg.connect(process.env.DATABASE_URL, function(err, client) {
+    if (err) throw err
+    console.log('Connected to postgres! Getting schemas...')
+    client
+        .query('SELECT table_schema,table_name FROM information_schema.tables;')
+        .on('row', function(row) {
+          console.log(JSON.stringify(row))
+    })
+})
 
 // Routes
 app.get('/', function(req, res) {
