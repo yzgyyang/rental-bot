@@ -3,8 +3,6 @@ A Rental Management Bot made for UWPC.
 
 ## Server Addresses
 Chatbot Webhook: https://uwpcrentalbot.herokuapp.com/  
-Firebase: https://uwpcrentalbot.firebaseio.com/
-
 
 ## Deployment
 The following secret values should be set in environmental variables instead of in the code:  
@@ -15,7 +13,6 @@ If you are deploying this app using Heroku (like I did), use Heroku CLI to set:
 ```
 heroku config:set FB_VERIFY_TOKEN=your_verify_token
 heroku config:set FB_ACCESS_TOKEN=your_access_token
-heroku config:set FIREBASE_PRIVATE_KEY=your_private_key
 ```
 
 ## FB Messenger Platform Settings

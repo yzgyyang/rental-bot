@@ -3,7 +3,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
-const firebase = require('firebase')
 
 const app = express()
 
@@ -15,17 +14,6 @@ app.use(express.static(__dirname + '/public'))
 // Allow to process the data
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
-
-// Firebase Init
-firebase.initializeApp({
-    serviceAccount: {
-        projectID: "uwpcrentalbot",
-        clientEmail: "rentalbot@uwpcrentalbot.iam.gserviceaccount.com",
-        privateKey: process.env.FIREBASE_PRIVATE_KEY
-    },
-    databaseURL: "https://uwpcrentalbot.firebaseio.com/"
-});
-var db = firebase.database()
 
 // Routes
 app.get('/', function(req, res) {
@@ -92,13 +80,11 @@ function decidePayload(sender, text1) {
 }
 
 function authExec(sender) {
-    db.ref("execs/" + sender).once('value').then(function(snapshot) {
-        if (snapshot.val() !== null) {
-    		sendPayloadMessage(sender, payloadExecLoginSuccess)
-    	} else {
-    		sendText(sender, "Your PSID is " + sender + ". Authentication failed.")
-    	}
-    })
+    if (false) {
+		sendPayloadMessage(sender, payloadExecLoginSuccess)
+	} else {
+		sendText(sender, "Your PSID is " + sender + ". Authentication failed.")
+	}
 }
 
 function sendText(sender, text) {
