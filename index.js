@@ -73,7 +73,7 @@ function decideMessage(sender, text1) {
     } else if (text.includes("test_user_login")) {
         var user = identUser(sender)
         sendText(sender, JSON.stringify(user))
-    } else{
+    } else {
         sendText(sender, "Start a conversation by saying hey!")
     }
 }
