@@ -104,7 +104,6 @@ function authExec(sender) {
                     sendText(sender, "Your PSID is " + sender + ". Authentication failed.")
                 }
             })
-        })
     })
 }
 
