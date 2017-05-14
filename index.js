@@ -103,10 +103,7 @@ function identUser(sender) {
     var url = "https://graph.facebook.com/v2.6/" + sender
     url += "?fields=first_name,last_name,profile_pic,gender"
     url += "&access_token=" + process.env.FB_ACCESS_TOKEN
-    request({
-        url: url
-        method: "GET",
-    }, function(error, response, body) {
+    request(url, function(error, response, body) {
         if (error) {
             console.log("Sending error.")
         } else if (response.body.error) {
