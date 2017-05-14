@@ -16,7 +16,8 @@ app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
-// Init PostgreSQL
+// PostgreSQL Template
+/*
 pg.connect(process.env.DATABASE_URL, function(err, client) {
     if (err) throw err
     console.log('Connected to postgres! Getting schemas...')
@@ -26,6 +27,7 @@ pg.connect(process.env.DATABASE_URL, function(err, client) {
           console.log(JSON.stringify(row))
     })
 })
+*/
 
 // Routes
 app.get('/', function(req, res) {
@@ -92,11 +94,18 @@ function decidePayload(sender, text1) {
 }
 
 function authExec(sender) {
-    if (false) {
-		sendPayloadMessage(sender, payloadExecLoginSuccess)
-	} else {
-		sendText(sender, "Your PSID is " + sender + ". Authentication failed.")
-	}
+    pg.connect(process.env.DATABASE_URL, function(err, client) {
+        if (err) throw err
+        client
+            .query('SELECT id, psid, name FROM public.execs WHERE psid LIKE $1;', [sender], function(err, res) {
+                if (res.rows[0] !== null) {
+                    sendPayloadMessage(sender, payloadExecLoginSuccess)
+                } else {
+                    sendText(sender, "Your PSID is " + sender + ". Authentication failed.")
+                }
+            })
+        })
+    })
 }
 
 function sendText(sender, text) {
