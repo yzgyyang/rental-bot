@@ -107,9 +107,9 @@ function identUser(sender) {
         if (error) {
             console.log("Sending error.")
         } else if (response.body.error) {
-            console.log("sendText(): Response body error.")
+            console.log("identUser(): Response body error.")
         } else {
-            user = JSON.parse()
+            user = JSON.parse(body)
         }
     })
     pg.connect(process.env.DATABASE_URL, function(err, client) {
