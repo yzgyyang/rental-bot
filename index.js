@@ -99,7 +99,7 @@ function decidePayload(sender, text1) {
 }
 
 function identUser(sender) {
-    var user = null
+    var user = {}
     var url = "https://graph.facebook.com/v2.6/" + sender
     url += "?fields=first_name,last_name,profile_pic,gender"
     url += "&access_token=" + process.env.FB_ACCESS_TOKEN
@@ -109,6 +109,7 @@ function identUser(sender) {
         } else if (response.body.error) {
             console.log("identUser(): Response body error.")
         } else {
+            console.log(body)
             user = JSON.parse(body)
         }
     })
@@ -116,7 +117,7 @@ function identUser(sender) {
         if (err) throw err
         client
             .query('SELECT psid FROM public.users WHERE psid LIKE $1;', [sender], function(err, res) {
-                if (res.row[0] === null) {
+                if (res.row === null) {
                     client
                         .query('INSERT INTO public.users (psid, first_name, last_name, profile_pic, gender) VALUES ($1, $2, $3, $4, $5);',
                                 [sender, user.first_name, user.last_name, user.profile_pic, user.gender])
