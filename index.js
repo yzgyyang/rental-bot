@@ -1,9 +1,16 @@
 'use strict'
 
+<<<<<<< HEAD
 var express = require('express')
 var bodyParser = require('body-parser')
 var request = require('request')
 var pg = require('pg')
+=======
+const express = require('express')
+const bodyParser = require('body-parser')
+const request = require('request')
+const firebase = require('firebase')
+>>>>>>> c678e3acc15907d037323180f317f11ac0b38bb8
 
 var app = express()
 
@@ -16,6 +23,7 @@ app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
+<<<<<<< HEAD
 // Init PostgreSQL
 pg.connect(process.env.DATABASE_URL, function(err, client) {
     if (err) throw err
@@ -26,6 +34,18 @@ pg.connect(process.env.DATABASE_URL, function(err, client) {
           console.log(JSON.stringify(row))
     })
 })
+=======
+// Firebase Init
+firebase.initializeApp({
+    serviceAccount: {
+        projectID: "uwpcrentalbot",
+        clientEmail: "rentalbot@uwpcrentalbot.iam.gserviceaccount.com",
+        privateKey: process.env.FIREBASE_PRIVATE_KEY
+    },
+    databaseURL: "https://uwpcrentalbot.firebaseio.com/"
+});
+var db = firebase.database()
+>>>>>>> c678e3acc15907d037323180f317f11ac0b38bb8
 
 // Routes
 app.get('/', function(req, res) {
@@ -92,11 +112,21 @@ function decidePayload(sender, text1) {
 }
 
 function authExec(sender) {
+<<<<<<< HEAD
     if (false) {
 		sendPayloadMessage(sender, payloadExecLoginSuccess)
 	} else {
 		sendText(sender, "Your PSID is " + sender + ". Authentication failed.")
 	}
+=======
+    var ref = db.ref("execs/" + sender).once('value').then(function(snapshot) {
+        if (snapshot.val() !== null) {
+    		sendPayloadMessage(sender, payloadExecLoginSuccess)
+    	} else {
+    		sendText(sender, "Your PSID is " + sender + ". Authentication failed.")
+    	}
+    })
+>>>>>>> c678e3acc15907d037323180f317f11ac0b38bb8
 }
 
 function sendText(sender, text) {
@@ -114,6 +144,10 @@ function sendText(sender, text) {
             console.log("Sending error.")
         } else if (response.body.error) {
             console.log("sendText(): Response body error.")
+<<<<<<< HEAD
+=======
+            console.log(response)
+>>>>>>> c678e3acc15907d037323180f317f11ac0b38bb8
         }
     })
 }
